@@ -12,11 +12,11 @@ class UserController extends Controller
     //
     public function index() 
     {
-    	// $permissions = Permission::whereIn('name',['task-edit','task-delete'])->get();
-    	$permissions = Permission::all();
-    	$role = Role::where('name','admin')->first();
+    	$permissions = Permission::whereIn('name',['task-edit','task-delete', 'task-create'])->get();
+    	// $permissions = Permission::all();
+    	$role = Role::where('name','editor')->first();
     	$role->syncPermissions($permissions);
-    	dd($role);
+    	// dd($role);
     	$users = User::all();
     	$options = Role::pluck('name','name');
     	
@@ -28,6 +28,22 @@ class UserController extends Controller
     	$user = User::find($request->user_id);
     	$user->assignRole($request->role);
 
+    	return back();
+    }
+
+    public function roles() 
+    {
+    	$roles = Role::with('permissions')->get();
+    	$permissions = Permission::with('roles')->get();
+    	// dd($permissions);
+    	return view('users.role', compact('roles','permissions'));
+    }
+
+    public function createRole(Request $request) 
+    {
+    	
+    	Role::create(['name'=>$request->role]);
+    	
     	return back();
     }
 }

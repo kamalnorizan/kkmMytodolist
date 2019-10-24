@@ -34,4 +34,6 @@ Route::group(['middleware' => ['auth'],'prefix' => 'task'], function() {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users','UserController@index');
+Route::get('/users/role','UserController@roles');
 Route::post('/users/assignrole','UserController@assignrole')->name('assignrole');
+Route::post('/users/createRole','UserController@createRole')->name('createRole');
