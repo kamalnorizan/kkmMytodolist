@@ -35,9 +35,13 @@
 								@endforeach
 							</td>
 							<td>
+								@unlessrole('admin')
+								{{-- @can('user-edit') --}}
 								<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#rolepermissionmodal" data-permissions="{{$role->permissions}}" data-role_id="{{$role->id}}">
 									Update Permissions
-								</button>	
+								</button>
+								@endrole
+								{{-- @endcan	 --}}
 							</td>
 						</tr>
 						@endforeach
@@ -131,6 +135,7 @@
 			</div>
 			{!! Form::open(['method' => 'POST', 'route' => 'createPermission']) !!}
 			<div class="modal-body">
+			<input type="text" @role('admin') readonly="readonly"  @endrole  class="form-control">
 				<div class="form-group{{ $errors->has('permission') ? ' has-error' : '' }}">
 					{!! Form::label('permission', 'Permission') !!}
 					{!! Form::text('permission', null, ['class' => 'form-control', 'required' => 'required']) !!}

@@ -17,7 +17,7 @@
 // });
 
 Route::get('/', function () {
-    return view('welcome');
+	return view('welcome');
 });
 
 Auth::routes();
@@ -34,7 +34,10 @@ Route::group(['middleware' => ['auth'],'prefix' => 'task'], function() {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users','UserController@index');
-Route::get('/users/role','UserController@roles');
+// Route::group(['middleware' => ['permission:user-list']], function () {
+	Route::get('/users/role','UserController@roles');
+// });
+
 Route::post('/users/assignrole','UserController@assignrole')->name('assignrole');
 Route::post('/users/createRole','UserController@createRole')->name('createRole');
 Route::post('/users/createPermission','UserController@createPermission')->name('createPermission');
