@@ -54,4 +54,13 @@ class UserController extends Controller
     	
     	return back();
     }
+
+    public function roleassignpermission(Request $request) 
+    {
+    	$role = Role::find($request->role_id_rolepermission);
+    	// dd($request->permissions);
+    	$role->syncPermissions($request->permissions);
+
+    	return back();
+    }
 }

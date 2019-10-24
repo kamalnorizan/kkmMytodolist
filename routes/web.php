@@ -38,3 +38,4 @@ Route::get('/users/role','UserController@roles');
 Route::post('/users/assignrole','UserController@assignrole')->name('assignrole');
 Route::post('/users/createRole','UserController@createRole')->name('createRole');
 Route::post('/users/createPermission','UserController@createPermission')->name('createPermission');
+Route::post('/users/roleassignpermission','UserController@roleassignpermission')->name('roleassignpermission');

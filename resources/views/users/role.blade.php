@@ -35,7 +35,7 @@
 								@endforeach
 							</td>
 							<td>
-								<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#rolepermissionmodal" data-permissions="{{$role->permissions}}">
+								<button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#rolepermissionmodal" data-permissions="{{$role->permissions}}" data-role_id="{{$role->id}}">
 									Update Permissions
 								</button>	
 							</td>
@@ -158,17 +158,18 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			{!! Form::open(['method' => 'POST', 'url' => 'roleassignpermission']) !!}
+			{!! Form::open(['method' => 'POST', 'route' => 'roleassignpermission']) !!}
 			<div class="modal-body">
-				<div class="form-group{{ $errors->has('permissions') ? ' has-error' : '' }}">
-					{!! Form::label('permissions', 'Permission') !!}
-					{!! Form::select('permissions', $permissions->pluck('name','name'), null, ['id' => 'permissions', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
-					<small class="text-danger">{{ $errors->first('permissions') }}</small>
+				<div class="form-group{{ $errors->has('permissions[]') ? ' has-error' : '' }}">
+					{!! Form::label('permissions[]', 'Permission') !!}
+					{!! Form::select('permissions[]', $permissions->pluck('name','name'), null, ['id' => 'permissions', 'class' => 'form-control', 'required' => 'required', 'multiple']) !!}
+					<small class="text-danger">{{ $errors->first('permissions[]') }}</small>
 				</div>
+				{!! Form::hidden('role_id_rolepermission', 'value',['id'=>'role_id_rolepermission']) !!}
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
+				<button type="submit" class="btn btn-primary">Save changes</button>
 			</div>
 			{!! Form::close() !!}
 		</div>
@@ -181,10 +182,19 @@
 		$('#rolepermissionmodal').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget);
 			var permissions = button.data('permissions');
-
+			var roleid = button.data('role_id');
 			
+			$.each(permissions, function( intIndex, objValue){
+				$('#permissions option[value='+objValue.name+']').attr('selected',true);
+			});
+			$('#role_id_rolepermission').val(roleid);
+			// console.log(permissions);
+		});
 
-			console.log(permissions);
+		$('#rolepermissionmodal').on('hidden.bs.modal', function () {
+			$.each($("#permissions option:selected"), function(){
+				$(this).removeAttr("selected");
+			});
 		});
 	});
 </script>
