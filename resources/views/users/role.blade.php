@@ -180,9 +180,11 @@
 	$(document).ready(function(){
 		$('#rolepermissionmodal').on('show.bs.modal', function (event) {
 			var button = $(event.relatedTarget);
-			var permission = button.data('permission');
+			var permissions = button.data('permissions');
 
-			console.log(permission);
+			
+
+			console.log(permissions);
 		});
 	});
 </script>
