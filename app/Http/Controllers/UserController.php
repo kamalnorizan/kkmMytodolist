@@ -41,8 +41,16 @@ class UserController extends Controller
 
     public function createRole(Request $request) 
     {
-    	
+
     	Role::create(['name'=>$request->role]);
+    	
+    	return back();
+    }
+
+    public function createPermission(Request $request) 
+    {
+    	
+    	Permission::create(['name'=>$request->permission]);
     	
     	return back();
     }
